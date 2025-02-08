@@ -1,0 +1,9 @@
+project:
+  output-dir: _docs
+
+website:
+  title: "kaggle_hct_survival"
+  site-url: "https://ozpau.github.io/kaggle_hct_survival"
+  description: "Code for [CIBMTR - Equity in post-HCT Survival Predictions](https://www.kaggle.com/competitions/equity-post-HCT-survival-predictions) Kaggle competition"
+  repo-branch: main
+  repo-url: "https://github.com/ozpau/kaggle_hct_survival"
