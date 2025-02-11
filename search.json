@@ -1,0 +1,102 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "kaggle_hct_survival",
+    "section": "",
+    "text": "This file will become your README and also the index of your documentation.",
+    "crumbs": [
+      "kaggle_hct_survival"
+    ]
+  },
+  {
+    "objectID": "index.html#developer-guide",
+    "href": "index.html#developer-guide",
+    "title": "kaggle_hct_survival",
+    "section": "Developer Guide",
+    "text": "Developer Guide\nIf you are new to using nbdev here are some useful pointers to get you started.\n\nInstall kaggle_hct_survival in Development mode\n# make sure kaggle_hct_survival package is installed in development mode\n$ pip install -e .\n\n# make changes under nbs/ directory\n# ...\n\n# compile to have changes apply to kaggle_hct_survival\n$ nbdev_prepare",
+    "crumbs": [
+      "kaggle_hct_survival"
+    ]
+  },
+  {
+    "objectID": "index.html#usage",
+    "href": "index.html#usage",
+    "title": "kaggle_hct_survival",
+    "section": "Usage",
+    "text": "Usage\n\nInstallation\nInstall latest from the GitHub repository:\n$ pip install git+https://github.com/ozpau/kaggle_hct_survival.git\nor from conda\n$ conda install -c ozpau kaggle_hct_survival\nor from pypi\n$ pip install kaggle_hct_survival\n\n\nDocumentation\nDocumentation can be found hosted on this GitHub repository’s pages. Additionally you can find package manager specific guidelines on conda and pypi respectively.",
+    "crumbs": [
+      "kaggle_hct_survival"
+    ]
+  },
+  {
+    "objectID": "index.html#how-to-use",
+    "href": "index.html#how-to-use",
+    "title": "kaggle_hct_survival",
+    "section": "How to use",
+    "text": "How to use\nFill me in please! Don’t forget code examples:\n\n1+1\n\n2",
+    "crumbs": [
+      "kaggle_hct_survival"
+    ]
+  },
+  {
+    "objectID": "tree_baseline.html",
+    "href": "tree_baseline.html",
+    "title": "tree_baseline",
+    "section": "",
+    "text": "try: import kaggle_hct_survival\nexcept:\n    !pip install git+https://github.com/ozpau/kaggle_hct_survival.git\ntrain = pd.read_csv(path/\"train.csv\", index_col=0)\ntest = pd.read_csv(path/\"test.csv\", index_col=0)\ndesc = pd.read_csv(path/\"data_dictionary.csv\", index_col=0).T\nsample_sub = pd.read_csv(path/\"sample_submission.csv\", index_col=0)\n\ntrain.shape, test.shape\n\n((28800, 59), (3, 57))\nIt appears that there are 58 columns in the testing data. One of them is the target variable, but what is the other one?\nys = train.columns.difference(test.columns)\nys\n\nIndex(['efs', 'efs_time'], dtype='object')\nWhat are these columns for?\ndesc[ys].T\n\n\n\n\n\n\n\n\ndescription\ntype\nvalues\n\n\nvariable\n\n\n\n\n\n\n\nefs\nEvent-free survival\nCategorical\n['Event' 'Censoring']\n\n\nefs_time\nTime to event-free survival, months\nNumerical\nNaN\ndep_vars = [\"efs\", \"efs_time\"]\nsample_sub.columns\n\nIndex(['prediction'], dtype='object')\nFrom the dataset description: &gt; The primary outcome of interest is event-free survival, represented by the variable efs, while the time to event-free survival is captured by the variable efs_time. These two variables together encode the target for a censored time-to-event analysis.\nhttps://www.cancer.gov/publications/dictionaries/cancer-terms/def/event-free-survival",
+    "crumbs": [
+      "tree_baseline"
+    ]
+  },
+  {
+    "objectID": "tree_baseline.html#preprocess-the-data",
+    "href": "tree_baseline.html#preprocess-the-data",
+    "title": "tree_baseline",
+    "section": "Preprocess the data",
+    "text": "Preprocess the data\nLet’s join testing and training data for convenience into one dataframe and let’s also preprocess categorical and missing data\n\npvalid = 0.2\n#train.loc[len(train)",
+    "crumbs": [
+      "tree_baseline"
+    ]
+  },
+  {
+    "objectID": "tree_baseline.html#understanding-outcomes",
+    "href": "tree_baseline.html#understanding-outcomes",
+    "title": "tree_baseline",
+    "section": "Understanding outcomes",
+    "text": "Understanding outcomes\n\nsample_sub.head().T\n\n\n\n\n\n\n\nID\n28800\n28801\n28802\n\n\n\n\nprediction\n0.5\n0.5\n0.5\n\n\n\n\n\n\n\n\nvars_submit = [\"efs\"]\ntrain[vars_submit].sample(5).T\n\n\n\n\n\n\n\nID\n18932\n21280\n27880\n15692\n25416\n\n\n\n\nefs\n0.0\n1.0\n1.0\n1.0\n1.0\n\n\n\n\n\n\n\n\ntrain[vars_submit].value_counts()\n\nefs\n1.0    15532\n0.0    13268\nName: count, dtype: int64\n\n\nMakes sense. A person either survives or not.\nBut there is also time to survival. Is there some masking envolved?\n\ntrain.query('efs == 0')['efs_time'].plot.hist(label=\"Dead\")\ntrain.query('efs == 1')['efs_time'].plot.hist(label=\"Alive\")\nplt.legend()",
+    "crumbs": [
+      "tree_baseline"
+    ]
+  },
+  {
+    "objectID": "tree_baseline.html#validation-set",
+    "href": "tree_baseline.html#validation-set",
+    "title": "tree_baseline",
+    "section": "Validation set",
+    "text": "Validation set\nLets select validation set and join all data into one dataframe for ease of use.\nBut first, we need to understand what kind of sampling differences are to expect from the testing dataset. - Is it going to be sampled from the same prior distribution as the testing set? - Is it going to be sampled for future patients? - Is",
+    "crumbs": [
+      "tree_baseline"
+    ]
+  },
+  {
+    "objectID": "tree_baseline.html#scratch-work",
+    "href": "tree_baseline.html#scratch-work",
+    "title": "tree_baseline",
+    "section": "Scratch Work",
+    "text": "Scratch Work\n\ntrain_conds = np.arange(len(train)) &lt; len(train)*0.8\n\ntrain_idx = np.where( train_conds)[0]\nvalid_idx = np.where(~train_conds)[0]\nsplits = (list(train_idx), list(valid_idx))\n\nprocs = [Categorify, FillMissing]\ncont,cat = cont_cat_split(train, 40, dep_var=dep_vars)\n\n\nwith warnings.catch_warnings():\n    warnings.simplefilter('ignore')\n    # debug\n    to = TabularPandas(train, procs, cat, cont, y_names=dep_vars, splits=splits)\n    #to = TabularPandas(train.drop(, procs, cat, cont, y_names=dep_vars, splits=splits)\n\n\ndef preprocess_test_data(to):\n    with warnings.catch_warnings():\n        warnings.simplefilter('ignore')\n        dls = to.dataloaders()\n        dl = dls.test_dl(test)\n        return dl.dataset.items\n\n\nprocessed_test = preprocess_test_data(to)\n\n\n'efs' in processed_test or 'efs_time' in processed_test\n\nFalse\n\n\n\n'efs_time' in processed_test.columns\n\nFalse\n\n\n\nlist(zip(to.items.drop(columns=['efs','efs_time']).columns, processed_test.columns))\n\n[('dri_score', 'dri_score'),\n ('psych_disturb', 'psych_disturb'),\n ('cyto_score', 'cyto_score'),\n ('diabetes', 'diabetes'),\n ('hla_match_c_high', 'hla_match_c_high'),\n ('hla_high_res_8', 'hla_high_res_8'),\n ('tbi_status', 'tbi_status'),\n ('arrhythmia', 'arrhythmia'),\n ('hla_low_res_6', 'hla_low_res_6'),\n ('graft_type', 'graft_type'),\n ('vent_hist', 'vent_hist'),\n ('renal_issue', 'renal_issue'),\n ('pulm_severe', 'pulm_severe'),\n ('prim_disease_hct', 'prim_disease_hct'),\n ('hla_high_res_6', 'hla_high_res_6'),\n ('cmv_status', 'cmv_status'),\n ('hla_high_res_10', 'hla_high_res_10'),\n ('hla_match_dqb1_high', 'hla_match_dqb1_high'),\n ('tce_imm_match', 'tce_imm_match'),\n ('hla_nmdp_6', 'hla_nmdp_6'),\n ('hla_match_c_low', 'hla_match_c_low'),\n ('rituximab', 'rituximab'),\n ('hla_match_drb1_low', 'hla_match_drb1_low'),\n ('hla_match_dqb1_low', 'hla_match_dqb1_low'),\n ('prod_type', 'prod_type'),\n ('cyto_score_detail', 'cyto_score_detail'),\n ('conditioning_intensity', 'conditioning_intensity'),\n ('ethnicity', 'ethnicity'),\n ('year_hct', 'year_hct'),\n ('obesity', 'obesity'),\n ('mrd_hct', 'mrd_hct'),\n ('in_vivo_tcd', 'in_vivo_tcd'),\n ('tce_match', 'tce_match'),\n ('hla_match_a_high', 'hla_match_a_high'),\n ('hepatic_severe', 'hepatic_severe'),\n ('donor_age', 'donor_age'),\n ('prior_tumor', 'prior_tumor'),\n ('hla_match_b_low', 'hla_match_b_low'),\n ('peptic_ulcer', 'peptic_ulcer'),\n ('age_at_hct', 'age_at_hct'),\n ('hla_match_a_low', 'hla_match_a_low'),\n ('gvhd_proph', 'gvhd_proph'),\n ('rheum_issue', 'rheum_issue'),\n ('sex_match', 'sex_match'),\n ('hla_match_b_high', 'hla_match_b_high'),\n ('race_group', 'race_group'),\n ('comorbidity_score', 'comorbidity_score'),\n ('karnofsky_score', 'karnofsky_score'),\n ('hepatic_mild', 'hepatic_mild'),\n ('tce_div_match', 'tce_div_match'),\n ('donor_related', 'donor_related'),\n ('melphalan_dose', 'melphalan_dose'),\n ('hla_low_res_8', 'hla_low_res_8'),\n ('cardiac', 'cardiac'),\n ('hla_match_drb1_high', 'hla_match_drb1_high'),\n ('pulm_moderate', 'pulm_moderate'),\n ('hla_low_res_10', 'hla_low_res_10'),\n ('hla_match_c_high_na', 'hla_match_c_high_na'),\n ('hla_high_res_8_na', 'hla_high_res_8_na'),\n ('hla_low_res_6_na', 'hla_low_res_6_na'),\n ('hla_high_res_6_na', 'hla_high_res_6_na'),\n ('hla_high_res_10_na', 'hla_high_res_10_na'),\n ('hla_match_dqb1_high_na', 'hla_match_dqb1_high_na'),\n ('hla_nmdp_6_na', 'hla_nmdp_6_na'),\n ('hla_match_c_low_na', 'hla_match_c_low_na'),\n ('hla_match_drb1_low_na', 'hla_match_drb1_low_na'),\n ('hla_match_dqb1_low_na', 'hla_match_dqb1_low_na'),\n ('hla_match_a_high_na', 'hla_match_a_high_na'),\n ('donor_age_na', 'donor_age_na'),\n ('hla_match_b_low_na', 'hla_match_b_low_na'),\n ('hla_match_a_low_na', 'hla_match_a_low_na'),\n ('hla_match_b_high_na', 'hla_match_b_high_na'),\n ('comorbidity_score_na', 'comorbidity_score_na'),\n ('karnofsky_score_na', 'karnofsky_score_na'),\n ('hla_low_res_8_na', 'hla_low_res_8_na'),\n ('hla_match_drb1_high_na', 'hla_match_drb1_high_na'),\n ('hla_low_res_10_na', 'hla_low_res_10_na')]\n\n\n\nprocessed_test.columns\n\nIndex(['dri_score', 'psych_disturb', 'cyto_score', 'diabetes',\n       'hla_match_c_high', 'hla_high_res_8', 'tbi_status', 'arrhythmia',\n       'hla_low_res_6', 'graft_type', 'vent_hist', 'renal_issue',\n       'pulm_severe', 'prim_disease_hct', 'hla_high_res_6', 'cmv_status',\n       'hla_high_res_10', 'hla_match_dqb1_high', 'tce_imm_match', 'hla_nmdp_6',\n       'hla_match_c_low', 'rituximab', 'hla_match_drb1_low',\n       'hla_match_dqb1_low', 'prod_type', 'cyto_score_detail',\n       'conditioning_intensity', 'ethnicity', 'year_hct', 'obesity', 'mrd_hct',\n       'in_vivo_tcd', 'tce_match', 'hla_match_a_high', 'hepatic_severe',\n       'donor_age', 'prior_tumor', 'hla_match_b_low', 'peptic_ulcer',\n       'age_at_hct', 'hla_match_a_low', 'gvhd_proph', 'rheum_issue',\n       'sex_match', 'hla_match_b_high', 'race_group', 'comorbidity_score',\n       'karnofsky_score', 'hepatic_mild', 'tce_div_match', 'donor_related',\n       'melphalan_dose', 'hla_low_res_8', 'cardiac', 'hla_match_drb1_high',\n       'pulm_moderate', 'hla_low_res_10', 'hla_match_c_high_na',\n       'hla_high_res_8_na', 'hla_low_res_6_na', 'hla_high_res_6_na',\n       'hla_high_res_10_na', 'hla_match_dqb1_high_na', 'hla_nmdp_6_na',\n       'hla_match_c_low_na', 'hla_match_drb1_low_na', 'hla_match_dqb1_low_na',\n       'hla_match_a_high_na', 'donor_age_na', 'hla_match_b_low_na',\n       'hla_match_a_low_na', 'hla_match_b_high_na', 'comorbidity_score_na',\n       'karnofsky_score_na', 'hla_low_res_8_na', 'hla_match_drb1_high_na',\n       'hla_low_res_10_na'],\n      dtype='object')\n\n\n\npd.concat([train,test]).shape, train.shape, test.shape\n\n((28803, 59), (28800, 59), (3, 57))\n\n\ndef fill_test(): train_conds = np.arange(len(train) + len(test)) &lt; len(train)\ntrain_idx = np.where( train_conds)[0]\nvalid_idx = np.where(~train_conds)[0]\nsplits = (list(train_idx), list(valid_idx))\n\ndf = pd.concat([train,test]).copy()\nwith warnings.catch_warnings():\n    warnings.simplefilter('ignore')\n    to = TabularPandas(df, procs, cat, cont);\nreturn to.items.iloc[len(train):].drop(columns=['efs', 'efs_time'])\nfill_test()\n\nxs,y = to.train.xs,to.train.y\nvalid_xs,valid_y = to.valid.xs,to.valid.y\n\n\nm = DecisionTreeRegressor(max_leaf_nodes=4)\nm.fit(xs, y);\n\ndraw_tree(m, xs, size=10, leaves_parallel=True, precision=2)\n\n\n\n\n\n\n\n\n\ndesc['conditioning_intensity']\n\ndescription                                                Computed planned conditioning intensity\ntype                                                                                   Categorical\nvalues         ['RIC' nan 'NMA' 'MAC' 'TBD' 'No drugs reported'\\n 'N/A, F(pre-TED) not submitted']\nName: conditioning_intensity, dtype: object\n\n\n\nto.classes['conditioning_intensity']\n\n['#na#', 'MAC', 'N/A, F(pre-TED) not submitted', 'NMA', 'No drugs reported', 'RIC', 'TBD']\n\n\n\nto.classes['graft_type']\n\n['#na#', 'Bone marrow', 'Peripheral blood']\n\n\n\nlen(preprocess_test_data(to).columns), len(m.feature_names_in_)\n\n(77, 77)\n\n\n\ndf = preprocess_test_data(to)\ndf.reindex(columns = m.feature_names_in_)\n\n\n\n\n\n\n\n\ndri_score\npsych_disturb\ncyto_score\ndiabetes\ntbi_status\narrhythmia\ngraft_type\nvent_hist\nrenal_issue\npulm_severe\nprim_disease_hct\ncmv_status\ntce_imm_match\nrituximab\nprod_type\ncyto_score_detail\nconditioning_intensity\nethnicity\nyear_hct\nobesity\nmrd_hct\nin_vivo_tcd\ntce_match\nhepatic_severe\nprior_tumor\npeptic_ulcer\ngvhd_proph\nrheum_issue\nsex_match\nrace_group\nhepatic_mild\ntce_div_match\ndonor_related\nmelphalan_dose\ncardiac\npulm_moderate\nhla_match_c_high_na\nhla_high_res_8_na\nhla_low_res_6_na\nhla_high_res_6_na\nhla_high_res_10_na\nhla_match_dqb1_high_na\nhla_nmdp_6_na\nhla_match_c_low_na\nhla_match_drb1_low_na\nhla_match_dqb1_low_na\nhla_match_a_high_na\ndonor_age_na\nhla_match_b_low_na\nhla_match_a_low_na\nhla_match_b_high_na\ncomorbidity_score_na\nkarnofsky_score_na\nhla_low_res_8_na\nhla_match_drb1_high_na\nhla_low_res_10_na\nhla_match_c_high\nhla_high_res_8\nhla_low_res_6\nhla_high_res_6\nhla_high_res_10\nhla_match_dqb1_high\nhla_nmdp_6\nhla_match_c_low\nhla_match_drb1_low\nhla_match_dqb1_low\nhla_match_a_high\ndonor_age\nhla_match_b_low\nage_at_hct\nhla_match_a_low\nhla_match_b_high\ncomorbidity_score\nkarnofsky_score\nhla_low_res_8\nhla_match_drb1_high\nhla_low_res_10\n\n\nID\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n28800\n8\n1\n0\n1\n1\n1\n1\n1\n1\n1\n7\n1\n0\n1\n1\n0\n0\n3\n9\n1\n0\n2\n0\n1\n1\n1\n12\n1\n3\n4\n1\n0\n3\n2\n1\n1\n2\n2\n1\n1\n2\n1\n1\n1\n1\n1\n1\n2\n1\n1\n1\n1\n1\n1\n1\n1\n2.0\n8.0\n6.0\n6.0\n10.0\n2.0\n6.0\n2.0\n2.0\n2.0\n2.0\n40.153999\n2.0\n9.942\n2.0\n2.0\n0.0\n90.0\n8.0\n2.0\n10.0\n\n\n28801\n3\n1\n2\n1\n7\n1\n2\n1\n1\n1\n3\n1\n8\n1\n2\n2\n1\n3\n1\n1\n2\n1\n4\n1\n1\n1\n14\n1\n1\n2\n1\n4\n2\n2\n1\n3\n1\n1\n1\n1\n1\n1\n1\n1\n1\n1\n1\n1\n1\n1\n1\n1\n1\n1\n1\n1\n2.0\n8.0\n6.0\n6.0\n10.0\n2.0\n6.0\n2.0\n2.0\n2.0\n2.0\n72.290000\n2.0\n43.705\n2.0\n2.0\n3.0\n90.0\n8.0\n2.0\n10.0\n\n\n28802\n8\n1\n0\n1\n1\n1\n1\n1\n1\n1\n6\n1\n8\n1\n1\n0\n0\n3\n12\n1\n0\n2\n0\n1\n1\n1\n8\n1\n2\n4\n1\n4\n2\n2\n1\n1\n1\n1\n1\n1\n1\n1\n1\n1\n1\n1\n1\n2\n1\n1\n1\n1\n1\n1\n1\n1\n2.0\n8.0\n6.0\n6.0\n10.0\n2.0\n6.0\n2.0\n2.0\n2.0\n2.0\n40.153999\n2.0\n33.997\n2.0\n2.0\n0.0\n90.0\n8.0\n2.0\n10.0\n\n\n\n\n\n\n\n\nlist(zip(preprocess_test_data(to).reindex(columns = m.feature_names_in_).columns, m.feature_names_in_))\n\n[('dri_score', 'dri_score'),\n ('psych_disturb', 'psych_disturb'),\n ('cyto_score', 'cyto_score'),\n ('diabetes', 'diabetes'),\n ('tbi_status', 'tbi_status'),\n ('arrhythmia', 'arrhythmia'),\n ('graft_type', 'graft_type'),\n ('vent_hist', 'vent_hist'),\n ('renal_issue', 'renal_issue'),\n ('pulm_severe', 'pulm_severe'),\n ('prim_disease_hct', 'prim_disease_hct'),\n ('cmv_status', 'cmv_status'),\n ('tce_imm_match', 'tce_imm_match'),\n ('rituximab', 'rituximab'),\n ('prod_type', 'prod_type'),\n ('cyto_score_detail', 'cyto_score_detail'),\n ('conditioning_intensity', 'conditioning_intensity'),\n ('ethnicity', 'ethnicity'),\n ('year_hct', 'year_hct'),\n ('obesity', 'obesity'),\n ('mrd_hct', 'mrd_hct'),\n ('in_vivo_tcd', 'in_vivo_tcd'),\n ('tce_match', 'tce_match'),\n ('hepatic_severe', 'hepatic_severe'),\n ('prior_tumor', 'prior_tumor'),\n ('peptic_ulcer', 'peptic_ulcer'),\n ('gvhd_proph', 'gvhd_proph'),\n ('rheum_issue', 'rheum_issue'),\n ('sex_match', 'sex_match'),\n ('race_group', 'race_group'),\n ('hepatic_mild', 'hepatic_mild'),\n ('tce_div_match', 'tce_div_match'),\n ('donor_related', 'donor_related'),\n ('melphalan_dose', 'melphalan_dose'),\n ('cardiac', 'cardiac'),\n ('pulm_moderate', 'pulm_moderate'),\n ('hla_match_c_high_na', 'hla_match_c_high_na'),\n ('hla_high_res_8_na', 'hla_high_res_8_na'),\n ('hla_low_res_6_na', 'hla_low_res_6_na'),\n ('hla_high_res_6_na', 'hla_high_res_6_na'),\n ('hla_high_res_10_na', 'hla_high_res_10_na'),\n ('hla_match_dqb1_high_na', 'hla_match_dqb1_high_na'),\n ('hla_nmdp_6_na', 'hla_nmdp_6_na'),\n ('hla_match_c_low_na', 'hla_match_c_low_na'),\n ('hla_match_drb1_low_na', 'hla_match_drb1_low_na'),\n ('hla_match_dqb1_low_na', 'hla_match_dqb1_low_na'),\n ('hla_match_a_high_na', 'hla_match_a_high_na'),\n ('donor_age_na', 'donor_age_na'),\n ('hla_match_b_low_na', 'hla_match_b_low_na'),\n ('hla_match_a_low_na', 'hla_match_a_low_na'),\n ('hla_match_b_high_na', 'hla_match_b_high_na'),\n ('comorbidity_score_na', 'comorbidity_score_na'),\n ('karnofsky_score_na', 'karnofsky_score_na'),\n ('hla_low_res_8_na', 'hla_low_res_8_na'),\n ('hla_match_drb1_high_na', 'hla_match_drb1_high_na'),\n ('hla_low_res_10_na', 'hla_low_res_10_na'),\n ('hla_match_c_high', 'hla_match_c_high'),\n ('hla_high_res_8', 'hla_high_res_8'),\n ('hla_low_res_6', 'hla_low_res_6'),\n ('hla_high_res_6', 'hla_high_res_6'),\n ('hla_high_res_10', 'hla_high_res_10'),\n ('hla_match_dqb1_high', 'hla_match_dqb1_high'),\n ('hla_nmdp_6', 'hla_nmdp_6'),\n ('hla_match_c_low', 'hla_match_c_low'),\n ('hla_match_drb1_low', 'hla_match_drb1_low'),\n ('hla_match_dqb1_low', 'hla_match_dqb1_low'),\n ('hla_match_a_high', 'hla_match_a_high'),\n ('donor_age', 'donor_age'),\n ('hla_match_b_low', 'hla_match_b_low'),\n ('age_at_hct', 'age_at_hct'),\n ('hla_match_a_low', 'hla_match_a_low'),\n ('hla_match_b_high', 'hla_match_b_high'),\n ('comorbidity_score', 'comorbidity_score'),\n ('karnofsky_score', 'karnofsky_score'),\n ('hla_low_res_8', 'hla_low_res_8'),\n ('hla_match_drb1_high', 'hla_match_drb1_high'),\n ('hla_low_res_10', 'hla_low_res_10')]\n\n\n\ndef predict(to):\n    df = preprocess_test_data(to).reindex(columns = m.feature_names_in_)\n    df = pd.DataFrame({\"prediction\": m.predict(df)}, index=df.index)\n    df.index.name = \"ID\"\n    return df\n\n\ndf = predict(to)\ndf.to_csv(\"var/submission.csv\")\n\n\n!head {path}/sample_submission.csv\n\nID,prediction\n28800,0.5\n28801,0.5\n28802,0.5",
+    "crumbs": [
+      "tree_baseline"
+    ]
+  },
+  {
+    "objectID": "core.html",
+    "href": "core.html",
+    "title": "core",
+    "section": "",
+    "text": "source\n\nfoo\n\n foo ()",
+    "crumbs": [
+      "core"
+    ]
+  }
+]
