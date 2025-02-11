@@ -5,4 +5,6 @@ d = { 'settings': { 'branch': 'main',
                 'doc_host': 'https://ozpau.github.io',
                 'git_url': 'https://github.com/ozpau/kaggle_hct_survival',
                 'lib_path': 'kaggle_hct_survival'},
-  'syms': {'kaggle_hct_survival.core': {'kaggle_hct_survival.core.foo': ('core.html#foo', 'kaggle_hct_survival/core.py')}}}
+  'syms': { 'kaggle_hct_survival.core': {'kaggle_hct_survival.core.foo': ('core.html#foo', 'kaggle_hct_survival/core.py')},
+            'kaggle_hct_survival.load_data': {},
+            'kaggle_hct_survival.tree_baseline': {}}}
