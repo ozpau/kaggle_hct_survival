@@ -12,6 +12,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+      - run: sudo apt-get install -y graphviz
       - uses: fastai/workflows/quarto-ghp@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

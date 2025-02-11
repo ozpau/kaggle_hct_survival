@@ -5,6 +5,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+      - run: sudo apt-get install -y graphviz
       - uses: fastai/workflows/nbdev-ci@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
